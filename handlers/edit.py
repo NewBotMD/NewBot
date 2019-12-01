@@ -1,12 +1,10 @@
-from pyrogram import Client, MessageHandler, Filters
-from handlers.msg import updateHandlers
-from handlers.callback import updateCallback
-from handlers.delete import delete
-import threading, requests, time, random
-from config import *
-from utlis.rank import setrank ,isrank ,remrank ,setsudos ,remsudos ,setsudo
 
+from utlis.rank import setrank ,isrank ,remrank ,setsudos ,remsudos ,setsudo
+from handlers.delete import delete
 from utlis.tg import Bot
+from config import *
+
+import threading, requests, time, random
 
 def edit(client, message,redis):
     userID = message.from_user.id
