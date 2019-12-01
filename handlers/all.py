@@ -1,15 +1,12 @@
 from utlis.rank import setrank,isrank,remrank,remsudos,setsudo, GPranks,IDrank
-from utlis.tg import Bot
-
-import threading, requests, time, random, re, json
-from config import *
-import importlib
-from utlis.locks import st,getOR
 from utlis.send import send_msg, BYusers, GetLink,Name
+from utlis.locks import st,getOR
+from utlis.tg import Bot
+from config import *
 
 from pyrogram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
-from pyrogram.api.types import MessageEntityMentionName
-from pyrogram.api.functions.messages import SendMessage
+import threading, requests, time, random, re, json
+import importlib
 
 from pyrogram.api.types import InputPeerChat
 def allGP(client, message,redis):
