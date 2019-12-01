@@ -1,13 +1,13 @@
 from utlis.rank import setrank,isrank,remrank,remsudos,setsudo, GPranks
-from utlis.tg import Bot
-
-import threading, requests, time, random, re, json,datetime
-from config import *
-import importlib
-from utlis.locks import st
 from utlis.send import send_msg, BYusers,Name
+from utlis.locks import st
+from utlis.tg import Bot
+from config import *
 
 from pyrogram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
+import threading, requests, time, random, re, json,datetime
+import importlib
+
 
 def nf(client, message,redis):
   type = message.chat.type
@@ -29,7 +29,6 @@ def nf(client, message,redis):
   group = redis.sismember("{}Nbot:groups".format(BOT_ID),chatID)
   rank = isrank(redis,userID,chatID)
   if group is True:
-    #print(message)
     if message.left_chat_member:
       if message.left_chat_member.id == int(BOT_ID):
         redis.srem("{}Nbot:groups".format(BOT_ID),chatID)
