@@ -1,0 +1,23 @@
+from pyrogram import Client, MessageHandler, Filters
+from handlers.msg import updateHandlers
+from handlers.callback import updateCallback
+from handlers.delete import delete
+import threading, requests, time, random
+from config import *
+from utlis.rank import setrank ,isrank ,remrank ,setsudos ,remsudos ,setsudo
+
+from utlis.tg import Bot
+
+def edit(client, message,redis):
+    userID = message.from_user.id
+    chatID = message.chat.id
+    rank = isrank(redis,userID,chatID)
+    group = redis.sismember("{}Nbot:groups".format(BOT_ID),chatID)
+    redis.hincrby("{}Nbot:{}:edits".format(BOT_ID,chatID),userID)
+    if not message.outgoing:
+        if (rank is False or rank is 0) and group is True and redis.sismember("{}Nbot:Ledits".format(BOT_ID),chatID):
+            Bot("deleteMessage",{"chat_id":chatID,"message_id":message.message_id})
+        if (rank is False or rank is 0) and group is True and not redis.sismember("{}Nbot:Ledits".format(BOT_ID),chatID):
+            t = threading.Thread(target=delete,args=(client, message,redis))
+            t.setDaemon(True)
+            t.start()
