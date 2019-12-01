@@ -1,13 +1,12 @@
 from utlis.rank import setrank,isrank,remrank,remsudos,setsudo,GPranks,IDrank
-from utlis.tg import Bot
-
-import threading, requests, time, random, re, json
-from config import *
-import importlib
-from pyrogram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
-from utlis.locks import st,getOR,Clang
 from utlis.send import send_msg, BYusers, Sendto, fwdto,Name
+from utlis.locks import st,getOR,Clang
+from utlis.tg import Bot
+from config import *
 
+from pyrogram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
+import threading, requests, time, random, re, json
+import importlib
 
 def updateCallback(client, callback_query,redis):
   
