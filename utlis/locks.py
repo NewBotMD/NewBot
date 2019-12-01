@@ -1,59 +1,28 @@
 from utlis.rank import setrank,isrank,remrank,remsudos,setsudo
-import threading, requests, time, random, re, json
 from config import *
+
+from pyrogram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
+import threading, requests, time, random, re, json
 import importlib
 
 from os import listdir
 from os.path import isfile, join
 
-from pyrogram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
 def getOR(rank,r,userID):
   if rank == "admin":
-    reply_markup=InlineKeyboardMarkup([
-
-[InlineKeyboardButton(r.lockC,callback_data=json.dumps(["ShowOlock","",userID])),InlineKeyboardButton(r.AdminC,callback_data=json.dumps(["ShowOadmin","",userID])),],
-
-
-])
+    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(r.lockC,callback_data=json.dumps(["ShowOlock","",userID])),InlineKeyboardButton(r.AdminC,callback_data=json.dumps(["ShowOadmin","",userID])),],])
 
   if rank == "owner":
-    reply_markup=InlineKeyboardMarkup([
-
-[InlineKeyboardButton(r.lockC,callback_data=json.dumps(["ShowOlock","",userID])),InlineKeyboardButton(r.AdminC,callback_data=json.dumps(["ShowOadmin","",userID])),],
-[InlineKeyboardButton(r.OwnerC,callback_data=json.dumps(["ShowOowner","",userID])),],
-
-])
+    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(r.lockC,callback_data=json.dumps(["ShowOlock","",userID])),InlineKeyboardButton(r.AdminC,callback_data=json.dumps(["ShowOadmin","",userID])),],[InlineKeyboardButton(r.OwnerC,callback_data=json.dumps(["ShowOowner","",userID])),],])
 
   if rank == "creator":
-    reply_markup=InlineKeyboardMarkup([
-
-[InlineKeyboardButton(r.lockC,callback_data=json.dumps(["ShowOlock","",userID])),InlineKeyboardButton(r.AdminC,callback_data=json.dumps(["ShowOadmin","",userID])),],
-[InlineKeyboardButton(r.OwnerC,callback_data=json.dumps(["ShowOowner","",userID])),InlineKeyboardButton(r.CreatorC,callback_data=json.dumps(["ShowOcreator","",userID])),],
-
-])
+    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(r.lockC,callback_data=json.dumps(["ShowOlock","",userID])),InlineKeyboardButton(r.AdminC,callback_data=json.dumps(["ShowOadmin","",userID])),],[InlineKeyboardButton(r.OwnerC,callback_data=json.dumps(["ShowOowner","",userID])),InlineKeyboardButton(r.CreatorC,callback_data=json.dumps(["ShowOcreator","",userID])),],])
 
   if rank == "sudos":
-    reply_markup=InlineKeyboardMarkup([
-
-[InlineKeyboardButton(r.lockC,callback_data=json.dumps(["ShowOlock","",userID])),InlineKeyboardButton(r.AdminC,callback_data=json.dumps(["ShowOadmin","",userID])),],
-
-[InlineKeyboardButton(r.OwnerC,callback_data=json.dumps(["ShowOowner","",userID])),InlineKeyboardButton(r.CreatorC,callback_data=json.dumps(["ShowOcreator","",userID])),],
-
-[InlineKeyboardButton(r.SudosC,callback_data=json.dumps(["ShowOsudos","",userID])),],
-
-])
+    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(r.lockC,callback_data=json.dumps(["ShowOlock","",userID])),InlineKeyboardButton(r.AdminC,callback_data=json.dumps(["ShowOadmin","",userID])),],[InlineKeyboardButton(r.OwnerC,callback_data=json.dumps(["ShowOowner","",userID])),InlineKeyboardButton(r.CreatorC,callback_data=json.dumps(["ShowOcreator","",userID])),],[InlineKeyboardButton(r.SudosC,callback_data=json.dumps(["ShowOsudos","",userID])),],])
 
   if rank == "sudo":
-    reply_markup=InlineKeyboardMarkup([
-
-[InlineKeyboardButton(r.lockC,callback_data=json.dumps(["ShowOlock","",userID])),InlineKeyboardButton(r.AdminC,callback_data=json.dumps(["ShowOadmin","",userID])),],
-
-[InlineKeyboardButton(r.OwnerC,callback_data=json.dumps(["ShowOowner","",userID])),InlineKeyboardButton(r.CreatorC,callback_data=json.dumps(["ShowOcreator","",userID])),],
-
-[InlineKeyboardButton(r.SudosC,callback_data=json.dumps(["ShowOsudos","",userID])),InlineKeyboardButton(r.SudoC,callback_data=json.dumps(["ShowOsudo","",userID])),],
-
-
-])
+    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(r.lockC,callback_data=json.dumps(["ShowOlock","",userID])),InlineKeyboardButton(r.AdminC,callback_data=json.dumps(["ShowOadmin","",userID])),],[InlineKeyboardButton(r.OwnerC,callback_data=json.dumps(["ShowOowner","",userID])),InlineKeyboardButton(r.CreatorC,callback_data=json.dumps(["ShowOcreator","",userID])),],[InlineKeyboardButton(r.SudosC,callback_data=json.dumps(["ShowOsudos","",userID])),InlineKeyboardButton(r.SudoC,callback_data=json.dumps(["ShowOsudo","",userID])),],])
   return (reply_markup or "")
 def st(client, message,redis,type = 1):
   userID = message.from_user.id
