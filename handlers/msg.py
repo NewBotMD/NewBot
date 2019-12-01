@@ -1,25 +1,24 @@
 from utlis.rank import setrank ,isrank ,remrank ,setsudos ,remsudos ,setsudo,IDrank,GPranks
+from utlis.send import send_msg, BYusers, sendM
+from handlers.delete import delete
 from utlis.tg import Bot, Ckuser
-from handlers.sudo import sudo
 from handlers.ranks import ranks
 from handlers.locks import locks
-from handlers.delete import delete
 from handlers.gpcmd import gpcmd
+from handlers.sudo import sudo
 from handlers.all import allGP
 from utlis.tg import Bot,Del24
-
 from config import *
-import importlib
-from utlis.send import send_msg, BYusers, sendM
-import threading, requests, time, random, re , json,datetime
+
 from pyrogram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
+import threading, requests, time, random, re , json,datetime
+import importlib
 
 def updateHandlers(client, message,redis):
 
 	type = message.chat.type
 	userID = message.from_user.id
 	chatID = message.chat.id
-
 	if redis.sismember("{}Nbot:lang:ar".format(BOT_ID),chatID):
 		lang = "ar"
 	elif redis.sismember("{}Nbot:lang:en".format(BOT_ID),chatID):
@@ -31,12 +30,9 @@ def updateHandlers(client, message,redis):
 	c = importlib.import_module(moduleCMD)
 	r = importlib.import_module(moduleREPLY)
 	if (type is "supergroup" or type is "group") and message.outgoing != True:
-
 		userID = message.from_user.id
 		chatID = message.chat.id
 		rank = isrank(redis,userID,chatID)
-		
-		print(userID,rank)
 		group = redis.sismember("{}Nbot:groups".format(BOT_ID),chatID)
 		text = message.text
 		title = message.chat.title
@@ -113,12 +109,10 @@ def updateHandlers(client, message,redis):
 			t = threading.Thread(target=gpcmd,args=(client, message,redis))
 			t.setDaemon(True)
 			t.start()
-
-		t = threading.Thread(target=allGP,args=(client, message,redis))
-		t.setDaemon(True)
-		t.start()
-
-
+		if  group is True:
+			t = threading.Thread(target=allGP,args=(client, message,redis))
+			t.setDaemon(True)
+			t.start()
 
 
 	if type is "private" and message.outgoing != True:
