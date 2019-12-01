@@ -28,4 +28,4 @@ f = open("config.py","w+")
 f.write(out)
 f.close()
 
-os.system('cd ~;cdNewBot;pm2 start bot.py --name {} --interpreter python3.7 --interpreter-args -u'.format(ID))
+os.system('cd ~/NewBot;pm2 start bot.py --name {} --interpreter python3.7 --interpreter-args -u'.format(ID))
