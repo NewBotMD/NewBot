@@ -1,13 +1,12 @@
 from utlis.rank import setrank,isrank,remrank,remsudos,setsudo, GPranks,Grank
 from utlis.tg import Bot , Ckuser
-
-import threading, requests, time, random, re, json
-from config import *
-import importlib
-from utlis.locks import st,Clang
 from utlis.send import send_msg, BYusers, Name
+from utlis.locks import st,Clang
+from config import *
 
 from pyrogram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
+import threading, requests, time, random, re, json
+import importlib
 
 from os import listdir
 from os.path import isfile, join
@@ -381,7 +380,3 @@ def gpcmd(client, message,redis):
           if ad['status'] == "administrator" and int(userId) != int(BOT_ID):
             setrank(redis,"admin",userId,chatID,"array")
         Bot("sendMessage",{"chat_id":chatID,"text":r.DPROadmins,"reply_to_message_id":message.message_id,"parse_mode":"html"})
-
-
-
-
