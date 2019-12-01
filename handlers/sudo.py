@@ -1,11 +1,11 @@
 from utlis.rank import setrank,isrank,remrank,remsudos,setsudo,GPranks
-import threading, requests, time, random, re, json,datetime,os
-from config import *
-import importlib
-from utlis.tg import Bot,Ckuser
 from utlis.send import send_msg, BYusers,sendM,GetLink
-from pyrogram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
+from utlis.tg import Bot,Ckuser
+from config import *
 
+from pyrogram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
+import threading, requests, time, random, re, json,datetime,os
+import importlib
 
 def setsudos(redis,userID):
 	try:
@@ -63,12 +63,6 @@ def sudo(client, message,redis):
 			redis.hdel("{}Nbot:stepSUDO".format(BOT_ID),userID)
 			Bot("sendMessage",{"chat_id":chatID,"text":r.SRvo.format(tx),"reply_to_message_id":message.message_id,"parse_mode":"html"})
 
-#	if text == c.add:
-#		Bot("sendMessage",{"chat_id":chatID,"text":r.doneadded.format(title),"reply_to_message_id":message.message_id,"parse_mode":"html"})
-#	if text == c.disabl:
-#		redis.srem("{}Nbot:groups".format(BOT_ID),chatID)
-#		redis.sadd("{}Nbot:disabledgroups".format(BOT_ID),chatID)
-#		Bot("sendMessage",{"chat_id":chatID,"text":r.disabl.format(title),"reply_to_message_id":message.message_id,"parse_mode":"html"})
 	if text and (type is "supergroup" or type is "group"):
 		if re.search(c.leaveChatS, text):
 			Bot("leaveChat",{"chat_id":chatID})
@@ -171,8 +165,6 @@ def sudo(client, message,redis):
 
 
 
-
- 
 		if rank is "sudo":
 			if text == c.Ulang:
 				t = r.Dulang
@@ -509,11 +501,4 @@ def sudo(client, message,redis):
 						Bot("sendMessage",{"chat_id":chatID,"text":r.sendto,"reply_to_message_id":message.reply_to_message.message_id,"parse_mode":"html","reply_markup":reply_markup})
 					elif v["ok"] == False:
 						Bot("sendMessage",{"chat_id":chatID,"text":r.DsetSudosShowE,"reply_to_message_id":message.reply_to_message.message_id,"parse_mode":"html"})
-
-
-
-
-
-
-
 
