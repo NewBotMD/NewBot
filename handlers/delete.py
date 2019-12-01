@@ -1,11 +1,11 @@
 from utlis.rank import setrank,isrank,remrank,remsudos,setsudo, GPranks
-
-import threading, requests, time, random, re,json
-from config import *
-import importlib
-from utlis.tg import Bot
-from pyrogram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
 from utlis.send import Name
+from utlis.tg import Bot
+from config import *
+
+from pyrogram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
+import threading, requests, time, random, re,json
+import importlib
 
 def delete(client, message,redis):
   #print(message)
@@ -42,8 +42,7 @@ def delete(client, message,redis):
         reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(r.yes,callback_data=json.dumps(["kickme-yes","",userID])),InlineKeyboardButton(r.no,callback_data=json.dumps(["kickme-no","",userID])),]])
         Bot("sendMessage",{"chat_id":chatID,"text":r.kickme,"reply_to_message_id":message.message_id,"parse_mode":"html","reply_markup":reply_markup})
 
-      
-    #if re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text):
+
     if re.findall("[Hh][Tt][Tt][Pp][Ss]:/|[Hh][Tt][Tt][Pp]://|.[Ii][Rr]|.[Cc][Oo][Mm]|.[Oo][Rr][Gg]|.[Ii][Nn][Ff][Oo]|[Ww][Ww][Ww]|.[Tt][Kk]|.[Mm][Ee]", text):
       if redis.sismember("{}Nbot:Llink".format(BOT_ID),chatID): #1
         Bot("deleteMessage",{"chat_id":chatID,"message_id":message.message_id})
