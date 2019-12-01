@@ -1,2 +1,2 @@
 # NewBot
-NewBot - https://t.me/Nbbot
+NewBot - https://t.me/Nbbot (Beta)
