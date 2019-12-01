@@ -1,18 +1,16 @@
 from pyrogram import Client, MessageHandler, Filters
-from handlers.msg import updateHandlers
+
+from utlis.rank import setrank ,isrank ,remrank ,setsudos ,remsudos ,setsudo
 from handlers.callback import updateCallback
+from handlers.msg import updateHandlers
 from handlers.delete import delete
+from utlis.tg import Bot,Del24
 from handlers.edit import edit
 from handlers.nf import nf
+from config import *
+
 import threading, requests, time, random
 import redis
-
-from utlis.tg import Bot,Del24
-
-
-from config import *
-from utlis.rank import setrank ,isrank ,remrank ,setsudos ,remsudos ,setsudo
-
 import sched, time
 
 R = redis.Redis(charset="utf-8", decode_responses=True)
@@ -20,8 +18,8 @@ R = redis.Redis(charset="utf-8", decode_responses=True)
 app = Client("NB",bot_token=TOKEN,api_id = API_ID, api_hash = API_HASH)
 
 setsudo(R,SUDO)
-#setsudos(R,BOT_ID)
 R.set("{}Nbot:BOTrank".format(BOT_ID), BOT_ID)
+
 t = threading.Thread(target=Del24,args=("client", "message",R))
 t.setDaemon(True)
 t.start()
