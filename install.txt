@@ -13,7 +13,7 @@ echo -n "Downloading python3.7.."
 sudo apt-get update -y &>/dev/null
 sudo add-apt-repository ppa:deadsnakes/ppa -y &>/dev/null
 sudo apt-get update -y &>/dev/null
-sudo apt install python3.7 -y &>/dev/null
+sudo apt install python3.7 -y -y &>/dev/null
 sudo apt install python3-pip -y &>/dev/null
 sudo python3.7 -m pip install --upgrade pip &>/dev/null
 
