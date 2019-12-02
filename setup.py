@@ -1,8 +1,8 @@
 import requests,os
 
 out ="""
-API_ID = 770767
-API_HASH = '5ce182752b91a16f90e88f96a541f331'
+API_ID = 793178
+API_HASH = '9f4461079f30757ca0a4c23e14bd523f'
 """
 def Bot(TOKEN,method,data):
   url = "https://api.telegram.org/bot{}/{}".format(TOKEN,method)
