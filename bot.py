@@ -24,7 +24,7 @@ t = threading.Thread(target=Del24,args=("client", "message",R))
 t.setDaemon(True)
 t.start()
 
-@app.on_message(~Filters.edited & ~Filters.new_chat_title & ~Filters.pinned_message & ~Filters.left_chat_member & ~Filters.new_chat_photo & ~Filters.new_chat_members & ~Filters.delete_chat_photo)
+@app.on_message(~Filters.edited & ~Filters.new_chat_title & ~Filters.pinned_message & ~Filters.left_chat_member & ~Filters.new_chat_photo & ~Filters.new_chat_members & ~Filters.delete_chat_photo & ~Filters.channel)
 def update(client, message):
     t = threading.Thread(target=updateHandlers,args=(client, message,R))
     t.setDaemon(True)
@@ -34,12 +34,12 @@ def callback(client, callback_query ):
     t = threading.Thread(target=updateCallback,args=(client, callback_query,R))
     t.setDaemon(True)
     t.start()
-@app.on_message(Filters.edited)
+@app.on_message(Filters.edited & ~Filters.channel)
 def updateEdit(client, message):
     t = threading.Thread(target=edit,args=(client, message,R))
     t.setDaemon(True)
     t.start()
-@app.on_message(Filters.new_chat_title | Filters.pinned_message | Filters.left_chat_member | Filters.new_chat_photo | Filters.new_chat_members | Filters.delete_chat_photo)
+@app.on_message(Filters.new_chat_title | Filters.pinned_message | Filters.left_chat_member | Filters.new_chat_photo | Filters.new_chat_members | Filters.delete_chat_photo & ~Filters.channel)
 def updateEdit(client, message):
     t = threading.Thread(target=nf,args=(client, message,R))
     t.setDaemon(True)
