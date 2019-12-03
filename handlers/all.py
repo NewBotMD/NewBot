@@ -40,7 +40,29 @@ def allGP(client, message,redis):
 
     if text == c.ID and not redis.sismember("{}Nbot:IDSend".format(BOT_ID),chatID) and not message.reply_to_message:
       Ch = True
-      if not redis.sismember("{}Nbot:IDSendPH".format(BOT_ID),chatID):
+      if redis.sismember("{}Nbot:IDpt".format(BOT_ID),chatID):
+        t = IDrank(redis,userID,chatID,r)
+        msgs = (redis.hget("{}Nbot:{}:msgs".format(BOT_ID,chatID),userID) or 0)
+        edits = (redis.hget("{}Nbot:{}:edits".format(BOT_ID,chatID),userID) or 0)
+        rate = int(msgs)*100/20000
+        if redis.hget("{}Nbot:SHOWid".format(BOT_ID),chatID):
+          tx = redis.hget("{}Nbot:SHOWid".format(BOT_ID),chatID)
+        else:
+          tx = r.IDnPT
+        if not redis.sismember("{}Nbot:IDSendPH".format(BOT_ID),chatID):
+          get = Bot("getUserProfilePhotos",{"user_id":userID,"offset":0,"limit":1})
+          if get["ok"] == False: 
+            Ch = True
+          elif get["result"]["total_count"] == 0:
+            Ch = True
+          else:
+            Ch = False
+            file_id = get["result"]["photos"][0][0]["file_id"]
+            Bot("sendPhoto",{"chat_id":chatID,"photo":file_id,"caption":tx.format(us=("@"+username or "None"),id=userID,rk=t,msgs=msgs,edits=edits,rate=str(rate)+"%"),"reply_to_message_id":message.message_id,"parse_mode":"html"})
+        if Ch == True:
+          Bot("sendMessage",{"chat_id":chatID,"text":tx.format(us=("@"+username or "None"),id=userID,rk=t,msgs=msgs,edits=edits,rate=str(rate)+"%"),"reply_to_message_id":message.message_id,"parse_mode":"html"})
+
+      if not redis.sismember("{}Nbot:IDSendPH".format(BOT_ID),chatID) and not redis.sismember("{}Nbot:IDpt".format(BOT_ID),chatID):
         get = Bot("getUserProfilePhotos",{"user_id":userID,"offset":0,"limit":1})
         if get["ok"] == False: 
           Ch = True
@@ -51,7 +73,7 @@ def allGP(client, message,redis):
           reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton(r.RIDPHs,callback_data=json.dumps(["ShowDateUser","",userID]))]])
           file_id = get["result"]["photos"][0][0]["file_id"]
           Bot("sendPhoto",{"chat_id":chatID,"photo":file_id,"caption":r.RID.format(userID),"reply_to_message_id":message.message_id,"parse_mode":"html","reply_markup":reply_markup})
-      if Ch == True:
+      if Ch == True and not redis.sismember("{}Nbot:IDpt".format(BOT_ID),chatID):
         reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton(r.RIDPHs,callback_data=json.dumps(["ShowDateUser","",userID]))]])
         Bot("sendMessage",{"chat_id":chatID,"text":r.RID.format(userID),"reply_to_message_id":message.message_id,"parse_mode":"html","reply_markup":reply_markup})
 
