@@ -176,7 +176,7 @@ def sudo(client, message,redis):
 				if deleted:
 					Bot("sendMessage",{"chat_id":chatID,"text":r.LenDeleted.format(len(deleted)),"reply_to_message_id":message.message_id,"parse_mode":"html"})
 					for u in deleted:
-						Bot("kickChatMember",{"chat_id":chatID,"user_id":userID,"until_date":int(time.time() + 60)})
+						Bot("kickChatMember",{"chat_id":chatID,"user_id":u.user.id,"until_date":int(time.time() + 60)})
 						time.sleep(0.3)
 				else:
 					Bot("sendMessage",{"chat_id":chatID,"text":r.NoDeleted,"reply_to_message_id":message.message_id,"parse_mode":"html"})
