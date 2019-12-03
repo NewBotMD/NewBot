@@ -29,6 +29,15 @@ def nf(client, message,redis):
   group = redis.sismember("{}Nbot:groups".format(BOT_ID),chatID)
   rank = isrank(redis,userID,chatID)
   if group is True:
+    if message.new_chat_members:
+      if message.new_chat_members[0].is_bot:
+        if redis.sismember("{}Nbot:Lbots".format(BOT_ID),chatID):#16
+          first_name = message.new_chat_members[0].first_name
+          username = message.new_chat_members[0].username
+          Bot("kickChatMember",{"chat_id":chatID,"user_id":message.new_chat_members[0].id})
+          Bot("sendMessage",{"chat_id":chatID,"text":r.kickbotadd.format(username,first_name),"reply_to_message_id":message.message_id,"parse_mode":"html"})
+      if redis.sismember("{}Nbot:Ljoin".format(BOT_ID),chatID):#17
+        Bot("deleteMessage",{"chat_id":chatID,"message_id":message.message_id})
     if message.left_chat_member:
       if message.left_chat_member.id == int(BOT_ID):
         redis.srem("{}Nbot:groups".format(BOT_ID),chatID)
