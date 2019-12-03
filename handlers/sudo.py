@@ -168,7 +168,7 @@ def sudo(client, message,redis):
 		if rank is "sudo":
 			if text == c.Ulang:
 				t = r.Dulang
-				os.system("rm -rf lang;cd ~;git clone https://github.com/NewBotMD/NewBot-lang.git;sudo cp -R NewBot-lang/lang N/lang/; rm -rf NewBot-lang")
+				os.system("rm -rf lang;cd ~;git clone https://github.com/NewBotMD/NewBot-lang.git;sudo cp -R NewBot-lang/lang NewBot/lang/; rm -rf NewBot-lang")
 				Bot("sendMessage",{"chat_id":chatID,"text":t,"reply_to_message_id":message.message_id,"parse_mode":"html"})
 
 			if re.search(c.deleteDeleted, text):
