@@ -79,10 +79,10 @@ def allGP(client, message,redis):
 
 
 
-    if text == c.ID and redis.sismember("{}Nbot:IDSend".format(BOT_ID),chatID) and message.reply_to_message:
+    if text == c.ID and not redis.sismember("{}Nbot:IDSend".format(BOT_ID),chatID) and message.reply_to_message:
       us = message.reply_to_message.from_user.id
       Bot("sendMessage",{"chat_id":chatID,"text":us,"reply_to_message_id":message.message_id,"parse_mode":"html"})
-    if re.search(c.idus,text) and redis.sismember("{}Nbot:IDSend".format(BOT_ID),chatID):
+    if re.search(c.idus,text) and not redis.sismember("{}Nbot:IDSend".format(BOT_ID),chatID):
       user = text.split("@")[1]
       try:
         getUser = client.get_users(user)
