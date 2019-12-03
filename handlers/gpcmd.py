@@ -1,4 +1,4 @@
-from utlis.rank import setrank,isrank,remrank,remsudos,setsudo, GPranks,Grank
+from utlis.rank import setrank,isrank,remrank,remsudos,setsudo, GPranks,Grank,IDrank
 from utlis.tg import Bot , Ckuser
 from utlis.send import send_msg, BYusers, Name
 from utlis.locks import st,Clang
@@ -18,6 +18,9 @@ def gpcmd(client, message,redis):
   title = message.chat.title
   rank = isrank(redis,userID,chatID)
   text = message.text
+  username = message.from_user.username
+  if username is None:
+    username = "None"
   if redis.sismember("{}Nbot:lang:ar".format(BOT_ID),chatID):
     lang = "ar"
   elif redis.sismember("{}Nbot:lang:en".format(BOT_ID),chatID):
@@ -57,6 +60,22 @@ def gpcmd(client, message,redis):
 
 ###############
   if text:
+    if re.search(c.delIDC, text):
+      redis.hdel("{}Nbot:SHOWid".format(BOT_ID),chatID)
+      Bot("sendMessage",{"chat_id":chatID,"text":r.Ddelid,"reply_to_message_id":message.message_id,"parse_mode":"html"})
+    if re.search(c.setIDC, text):
+        tx = text.replace(c.RsetIDC,"")
+        t = IDrank(redis,userID,chatID,r)
+        msgs = (redis.hget("{}Nbot:{}:msgs".format(BOT_ID,chatID),userID) or 0)
+        edits = (redis.hget("{}Nbot:{}:edits".format(BOT_ID,chatID),userID) or 0)
+        rate = int(msgs)*100/20000
+        v = Bot("sendMessage",{"chat_id":chatID,"text":tx.format(us=("@"+username or "None"),id=userID,rk=t,msgs=msgs,edits=edits,rate=str(rate)+"%"),"reply_to_message_id":message.message_id,"parse_mode":"html"})
+        if v["ok"]:
+          redis.hset("{}Nbot:SHOWid".format(BOT_ID),chatID,tx)
+          Bot("sendMessage",{"chat_id":chatID,"text":r.DsetIDShow,"reply_to_message_id":message.message_id,"parse_mode":"html"})
+        elif v["ok"] == False:
+          Bot("sendMessage",{"chat_id":chatID,"text":r.DsetSudosShowE,"reply_to_message_id":message.message_id,"parse_mode":"html"})
+
     if text == c.settingsCmd and Ckuser(message):
       kb = st(client, message,redis)
       Bot("sendMessage",{"chat_id":chatID,"text":r.settings.format(title),"reply_to_message_id":message.message_id,"parse_mode":"html","reply_markup":kb})
