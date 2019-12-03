@@ -37,7 +37,6 @@ echo -e "\rDone download pm2"
 
 echo -n "Downloading NewBot.." 
 
-cd ~
 git clone https://github.com/NewBotMD/NewBot.git &>/dev/null
 git clone https://github.com/NewBotMD/NewBot-lang.git &>/dev/null;sudo cp -R NewBot-lang/lang NewBot/lang/; rm -rf NewBot-lang
 
