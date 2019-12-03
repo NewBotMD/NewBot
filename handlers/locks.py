@@ -558,3 +558,25 @@ def locks(client, message,redis):
         Bot("sendMessage",{"chat_id":chatID,"text":r.unADD.format(BY,R),"reply_to_message_id":message.message_id,"parse_mode":"html","disable_web_page_preview":True})
       else:
         Bot("sendMessage",{"chat_id":chatID,"text":r.unADDed.format(BY,R),"reply_to_message_id":message.message_id,"parse_mode":"html","disable_web_page_preview":True})
+
+
+
+    if re.search(c.LIDpt,text):
+      R = text.replace(c.stAd,"")
+      get = redis.sismember("{}Nbot:IDpt".format(BOT_ID),chatID)
+      BY = "<a href=\"tg://user?id={}\">{}</a>".format(userID,userFN)
+      if get :
+        save = redis.srem("{}Nbot:IDpt".format(BOT_ID),chatID)
+        Bot("sendMessage",{"chat_id":chatID,"text":r.ADD.format(BY,R),"reply_to_message_id":message.message_id,"parse_mode":"html","disable_web_page_preview":True})
+      else:
+         Bot("sendMessage",{"chat_id":chatID,"text":r.ADDed.format(BY,R),"reply_to_message_id":message.message_id,"parse_mode":"html","disable_web_page_preview":True})
+
+    if re.search(c.UIDpt,text): 
+      R = text.replace(c.stUd,"")
+      BY = "<a href=\"tg://user?id={}\">{}</a>".format(userID,userFN)
+      get = redis.sismember("{}Nbot:IDpt".format(BOT_ID),chatID)
+      if get :
+        Bot("sendMessage",{"chat_id":chatID,"text":r.unADDed.format(BY,R),"reply_to_message_id":message.message_id,"parse_mode":"html","disable_web_page_preview":True})
+      else:
+        save = redis.sadd("{}Nbot:IDpt".format(BOT_ID),chatID)
+        Bot("sendMessage",{"chat_id":chatID,"text":r.unADD.format(BY,R),"reply_to_message_id":message.message_id,"parse_mode":"html","disable_web_page_preview":True})
