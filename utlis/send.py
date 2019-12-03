@@ -205,7 +205,12 @@ def GetLink(chatID):
   if "invite_link" in li:
     return li["invite_link"]
   else:
-    return False
+    Bot("exportChatInviteLink",{"chat_id":chatID})
+    li = Bot("getchat",{"chat_id":chatID})["result"]
+    if "invite_link" in li:
+      return li["invite_link"]
+    else:
+      return False
   
 
 def Name(name):
