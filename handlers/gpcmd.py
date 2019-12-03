@@ -388,8 +388,17 @@ def gpcmd(client, message,redis):
       Bot("sendMessage",{"chat_id":chatID,"text":r.Dsetlk.format(lk),"reply_to_message_id":message.message_id,"parse_mode":"html","disable_web_page_preview":True})
 
     if rank != "admin" and rank != "owner":
+      if re.search(c.deletebots, text):
+        bots = [x for x in client.iter_chat_members(chatID) if x.user.is_bot and x.user.id !=int(BOT_ID) and x.status != "administrator"]
+        if bots:
+          Bot("sendMessage",{"chat_id":chatID,"text":r.LenBots.format(len(bots)),"reply_to_message_id":message.message_id,"parse_mode":"html"})
+          for u in bots:
+            Bot("kickChatMember",{"chat_id":chatID,"user_id":u.user.id,"until_date":int(time.time() + 60)})
+            time.sleep(0.3)
+        else:
+          Bot("sendMessage",{"chat_id":chatID,"text":r.NoBots,"reply_to_message_id":message.message_id,"parse_mode":"html"})
+      
       if re.search(c.Chlang, text):
-
         Bot("sendMessage",{"chat_id":chatID,"text":r.Chlang,"reply_to_message_id":message.message_id,"parse_mode":"html","reply_markup":Clang(client, message,redis,r)})
       if re.search(c.PROadmins, text):
         ads = Bot("getChatAdministrators",{"chat_id":chatID})
