@@ -189,7 +189,7 @@ def sudo(client, message,redis):
 					f = open("./"+f,"w+")
 					f.write(out)
 					f.close()
-				Bot("sendMessage",{"chat_id":chatID,"text":t2,"reply_to_message_id":message.message_id,"parse_mode":"html"})
+				Bot("sendMessage",{"chat_id":chatID,"text":r.Wres,"reply_to_message_id":message.message_id,"parse_mode":"html"})
 				run(redis,chatID)
 				
 
