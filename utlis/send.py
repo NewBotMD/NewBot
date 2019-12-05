@@ -3,7 +3,7 @@ from utlis.tg import Bot
 from config import *
 
 from pyrogram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
-import threading, requests, time, random, re, json
+import threading, requests, time, random, re, json ,os
 import importlib
 
 def send_msg(type,client, message,textM,Lhash,T,redis):
@@ -217,3 +217,8 @@ def Name(name):
   Len = 10
   names = [name[y-Len:y] for y in range(Len, len(name)+Len,Len)]
   return names[0]
+
+
+def run(redis,chatID):
+  redis.set("{}:Nbot:restart".format(BOT_ID),chatID)
+  os.system("pm2 restart {}".format(BOT_ID))
