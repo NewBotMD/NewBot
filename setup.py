@@ -18,7 +18,7 @@ while go:
   token = input("input you're bot TOKEN:")
   get = Bot(token,"getme",{})
   if get["ok"]:
-    out = out+"\n"+"TOKEN = '{}'\nBOT_ID = int(TOKEN.split(':')[0])".format(token)
+    out = out+"\n"+"TOKEN = '{}'\nBOT_ID = TOKEN.split(':')[0]".format(token)
     go = False
     ID = token.split(':')[0]
     #with Client(":memory:",bot_token=token,api_id = API_ID, api_hash = API_HASH) as app, open("session.txt", "w+") as s_file:
