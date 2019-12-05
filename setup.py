@@ -21,9 +21,9 @@ while go:
     out = out+"\n"+"TOKEN = '{}'\nBOT_ID = int(TOKEN.split(':')[0])".format(token)
     go = False
     ID = int(token.split(':')[0])
-    with Client(":memory:",bot_token=token,api_id = API_ID, api_hash = API_HASH) as app, open("session.txt", "w+") as s_file:
-      session_string = app.export_session_string()
-      s_file.write(session_string)
+    #with Client(":memory:",bot_token=token,api_id = API_ID, api_hash = API_HASH) as app, open("session.txt", "w+") as s_file:
+      #session_string = app.export_session_string()
+      #s_file.write(session_string)
   else:
     print("TOKEN is invalid, Try again")
 
