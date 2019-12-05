@@ -7,6 +7,8 @@ from pyrogram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardBu
 import threading, requests, time, random, re, json,datetime,os
 import importlib
 
+from utlis.send import run
+
 def setsudos(redis,userID):
 	try:
 		get = redis.sismember("{}Nbot:sudos".format(BOT_ID),userID)
@@ -168,18 +170,11 @@ def sudo(client, message,redis):
 		if rank is "sudo":
 			if text == c.Ulang:
 				t = r.Dulang
-				os.system("rm -rf lang;cd ~;git clone https://github.com/NewBotMD/NewBot-lang.git;sudo cp -R NewBot-lang/lang NewBot/lang/; rm -rf NewBot-lang")
+				t2 = r.Wres
+				os.system("rm -rf lang;git clone https://github.com/NewBotMD/NewBot-lang.git;sudo cp -R NewBot-lang/lang lang/; rm -rf NewBot-lang")
 				Bot("sendMessage",{"chat_id":chatID,"text":t,"reply_to_message_id":message.message_id,"parse_mode":"html"})
-
-			if re.search(c.deleteDeleted, text):
-				deleted = [x for x in client.iter_chat_members(chatID) if x.user.is_deleted]
-				if deleted:
-					Bot("sendMessage",{"chat_id":chatID,"text":r.LenDeleted.format(len(deleted)),"reply_to_message_id":message.message_id,"parse_mode":"html"})
-					for u in deleted:
-						Bot("kickChatMember",{"chat_id":chatID,"user_id":u.user.id,"until_date":int(time.time() + 60)})
-						time.sleep(0.3)
-				else:
-					Bot("sendMessage",{"chat_id":chatID,"text":r.NoDeleted,"reply_to_message_id":message.message_id,"parse_mode":"html"})
+				Bot("sendMessage",{"chat_id":chatID,"text":t2,"reply_to_message_id":message.message_id,"parse_mode":"html"})
+				run(redis,chatID)
 			if re.search(c.setSudoC, text):
 				tx = text.replace(c.RsetSudoC,"")
 				v = Bot("sendMessage",{"chat_id":chatID,"text":tx,"reply_to_message_id":message.message_id,"parse_mode":"html"})
