@@ -3,7 +3,7 @@ from utlis.send import send_msg, Name
 from utlis.tg import Bot
 import importlib
 
-import threading, requests, time, random, re
+import threading, requests, time, random, re,json
 from config import *
 
 
@@ -317,20 +317,14 @@ def locks(client, message,redis):
       send_msg("LUN",client, message,r.unlocked,"Linline",T,redis)
 
   if text == c.Lchat :
-    get = redis.sismember("{}Nbot:Lchat".format(BOT_ID),chatID)
-    if get :
-      send_msg("LUN",client, message,r.locked,"Lchat",T,redis)
-    else:
-      save = redis.sadd("{}Nbot:Lchat".format(BOT_ID),chatID)
-      send_msg("LU",client, message,r.lock,"Lchat",T,redis)
+    Bot("setChatPermissions",{"chat_id":chatID})
+    send_msg("LUN",client, message,r.lock,"Lchat",T,redis)
+
 
   if text == c.Uchat :
-    get = redis.sismember("{}Nbot:Lchat".format(BOT_ID),chatID)
-    if get :
-      save = redis.srem("{}Nbot:Lchat".format(BOT_ID),chatID)
-      send_msg("LU",client, message,r.unlock,"Lchat",T,redis)
-    else:
-      send_msg("LUN",client, message,r.unlocked,"Lchat",T,redis)
+    Bot("setchatpermissions",{"chat_id":chatID,"permissions":json.dumps({"can_send_messages":True,"can_send_media_messages":True,"can_send_polls":True,"can_send_other_messages":True,"can_invite_users":True,"can_add_web_page_previews":True})})
+    send_msg("LUN",client, message,r.unlock,"Lchat",T,redis)
+
 
   if text == c.Ljoin :
     get = redis.sismember("{}Nbot:Ljoin".format(BOT_ID),chatID)
