@@ -60,21 +60,6 @@ def gpcmd(client, message,redis):
 
 ###############
   if text:
-    if re.search(c.delIDC, text):
-      redis.hdel("{}Nbot:SHOWid".format(BOT_ID),chatID)
-      Bot("sendMessage",{"chat_id":chatID,"text":r.Ddelid,"reply_to_message_id":message.message_id,"parse_mode":"html"})
-    if re.search(c.setIDC, text):
-        tx = text.replace(c.RsetIDC,"")
-        t = IDrank(redis,userID,chatID,r)
-        msgs = (redis.hget("{}Nbot:{}:msgs".format(BOT_ID,chatID),userID) or 0)
-        edits = (redis.hget("{}Nbot:{}:edits".format(BOT_ID,chatID),userID) or 0)
-        rate = int(msgs)*100/20000
-        v = Bot("sendMessage",{"chat_id":chatID,"text":tx.format(us=("@"+username or "None"),id=userID,rk=t,msgs=msgs,edits=edits,rate=str(rate)+"%"),"reply_to_message_id":message.message_id,"parse_mode":"html"})
-        if v["ok"]:
-          redis.hset("{}Nbot:SHOWid".format(BOT_ID),chatID,tx)
-          Bot("sendMessage",{"chat_id":chatID,"text":r.DsetIDShow,"reply_to_message_id":message.message_id,"parse_mode":"html"})
-        elif v["ok"] == False:
-          Bot("sendMessage",{"chat_id":chatID,"text":r.DsetSudosShowE,"reply_to_message_id":message.message_id,"parse_mode":"html"})
 
     if text == c.settingsCmd and Ckuser(message):
       kb = st(client, message,redis)
@@ -224,6 +209,22 @@ def gpcmd(client, message,redis):
         print(e)
         Bot("sendMessage",{"chat_id":chatID,"text":r.userNocc,"reply_to_message_id":message.message_id,"parse_mode":"html"})
     if rank != "admin":
+      if re.search(c.delIDC, text):
+        redis.hdel("{}Nbot:SHOWid".format(BOT_ID),chatID)
+        Bot("sendMessage",{"chat_id":chatID,"text":r.Ddelid,"reply_to_message_id":message.message_id,"parse_mode":"html"})
+      if re.search(c.setIDC, text):
+          tx = text.replace(c.RsetIDC,"")
+          t = IDrank(redis,userID,chatID,r)
+          msgs = (redis.hget("{}Nbot:{}:msgs".format(BOT_ID,chatID),userID) or 0)
+          edits = (redis.hget("{}Nbot:{}:edits".format(BOT_ID,chatID),userID) or 0)
+          rate = int(msgs)*100/20000
+          v = Bot("sendMessage",{"chat_id":chatID,"text":tx.format(us=("@"+username or "None"),id=userID,rank=t,msgs=msgs,edits=edits,rate=str(rate)+"%"),"reply_to_message_id":message.message_id,"parse_mode":"html"})
+          if v["ok"]:
+            redis.hset("{}Nbot:SHOWid".format(BOT_ID),chatID,tx)
+            Bot("sendMessage",{"chat_id":chatID,"text":r.DsetIDShow,"reply_to_message_id":message.message_id,"parse_mode":"html"})
+          elif v["ok"] == False:
+            Bot("sendMessage",{"chat_id":chatID,"text":r.DsetSudosShowE,"reply_to_message_id":message.message_id,"parse_mode":"html"})
+
       if re.search(c.block, text):
         if re.search(c.block2, text):
           tx = text.replace(c.RPbk,"")
@@ -398,6 +399,16 @@ def gpcmd(client, message,redis):
         else:
           Bot("sendMessage",{"chat_id":chatID,"text":r.NoBots,"reply_to_message_id":message.message_id,"parse_mode":"html"})
       
+      if re.search(c.deleteDeleted, text):
+        deleted = [x for x in client.iter_chat_members(chatID) if x.user.is_deleted]
+        if deleted:
+          Bot("sendMessage",{"chat_id":chatID,"text":r.LenDeleted.format(len(deleted)),"reply_to_message_id":message.message_id,"parse_mode":"html"})
+          for u in deleted:
+            Bot("kickChatMember",{"chat_id":chatID,"user_id":u.user.id,"until_date":int(time.time() + 60)})
+            time.sleep(0.3)
+        else:
+          Bot("sendMessage",{"chat_id":chatID,"text":r.NoDeleted,"reply_to_message_id":message.message_id,"parse_mode":"html"})
+
       if re.search(c.Chlang, text):
         Bot("sendMessage",{"chat_id":chatID,"text":r.Chlang,"reply_to_message_id":message.message_id,"parse_mode":"html","reply_markup":Clang(client, message,redis,r)})
       if re.search(c.PROadmins, text):
