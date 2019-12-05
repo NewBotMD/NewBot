@@ -173,22 +173,22 @@ def sudo(client, message,redis):
 				#Files_H = ["gpcmd.py"]
 				Files_U = ["tg.py","locks.py","rank.py","send.py"]
 				Files_B = ["bot.py","setup.py"]
-				for f in Files_H:
-					url = "https://raw.githubusercontent.com/NewBotMD/NewBot/master/handlers/"+f
+				for fnh in Files_H:
+					url = "https://raw.githubusercontent.com/NewBotMD/NewBot/master/handlers/"+fnh
 					out = requests.get(url).text
-					f = open("./handlers/"+f,"w+")
+					f = open("./handlers/"+fnh,"w+")
 					f.write(out)
 					f.close()
-				for f in Files_U:
-					url = "https://raw.githubusercontent.com/NewBotMD/NewBot/master/utlis/"+f
+				for fnu in Files_U:
+					url = "https://raw.githubusercontent.com/NewBotMD/NewBot/master/utlis/"+fnu
 					out = requests.get(url).text
-					f = open("./utlis/"+f,"w+")
+					f = open("./utlis/"+fnu,"w+")
 					f.write(out)
 					f.close()
-				for f in Files_B:
-					url = "https://raw.githubusercontent.com/NewBotMD/NewBot/master/"+f
+				for fnb in Files_B:
+					url = "https://raw.githubusercontent.com/NewBotMD/NewBot/master/"+fnb
 					out = requests.get(url).text
-					f = open("./"+f,"w+")
+					f = open("./"+fnb,"w+")
 					f.write(out)
 					f.close()
 				Bot("sendMessage",{"chat_id":chatID,"text":r.Wres,"reply_to_message_id":message.message_id,"parse_mode":"html"})
