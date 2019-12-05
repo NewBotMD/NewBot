@@ -16,8 +16,6 @@ import sched, time
 R = redis.Redis(charset="utf-8", decode_responses=True)
 
 app = Client("NB"+BOT_ID,bot_token=TOKEN,api_id = API_ID, api_hash = API_HASH)
-#session_string = open("session.txt").read()
-#app = Client(session_string,api_id = API_ID, api_hash = API_HASH)
 setsudo(R,SUDO)
 R.set("{}Nbot:BOTrank".format(BOT_ID), BOT_ID)
 
