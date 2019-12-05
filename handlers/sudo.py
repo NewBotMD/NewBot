@@ -168,6 +168,32 @@ def sudo(client, message,redis):
 
 
 		if rank is "sudo":
+			if text == c.Ubot:
+				Files_H = ["all.py","callback.py","delete.py","edit.py","gpcmd.py","locks.py","msg.py","nf.py","ranks.py","sudo.py"]
+				#Files_H = ["gpcmd.py"]
+				Files_U = ["tg.py","locks.py","rank.py","send.py"]
+				Files_B = ["bot.py","setup.py"]
+				for f in Files_H:
+					url = "https://raw.githubusercontent.com/NewBotMD/NewBot/master/handlers/"+f
+					out = requests.get(url).text
+					f = open("./handlers/"+f,"w+")
+					f.write(out)
+					f.close()
+				for f in Files_U:
+					url = "https://raw.githubusercontent.com/NewBotMD/NewBot/master/utlis/"+f
+					out = requests.get(url).text
+					f = open("./utlis/"+f,"w+")
+					f.write(out)
+					f.close()
+				for f in Files_B:
+					url = "https://raw.githubusercontent.com/NewBotMD/NewBot/master/"+f
+					f = open("./"+f,"w+")
+					f.write(out)
+					f.close()
+				Bot("sendMessage",{"chat_id":chatID,"text":t2,"reply_to_message_id":message.message_id,"parse_mode":"html"})
+				run(redis,chatID)
+				
+
 			if text == c.Ulang:
 				t = r.Dulang
 				t2 = r.Wres
